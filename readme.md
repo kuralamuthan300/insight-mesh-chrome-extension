@@ -4,6 +4,8 @@
 
 InsightMesh lets you clip snippets from any website, organize them into **Folders → Topics**, and use **Gemini AI** to synthesize your scattered notes into a structured learning roadmap.
 
+[Youtube Demo](https://www.youtube.com/watch?v=z8nXHq3NlAk)
+
 ---
 
 ## ✨ Features
