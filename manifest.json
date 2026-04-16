@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "InsightMesh",
+  "version": "1.0.0",
+  "description": "An intelligent research companion that organizes clips into topics and synthesizes knowledge using AI.",
+  "permissions": [
+    "contextMenus",
+    "storage",
+    "sidePanel",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://generativelanguage.googleapis.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "action": {
+    "default_title": "Open InsightMesh"
+  },
+  "icons": {
+    "16": "assets/icon16.png",
+    "48": "assets/icon48.png",
+    "128": "assets/icon128.png"
+  }
+}

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>InsightMesh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="sidepanel.css" />
+</head>
+<body>
+  <!-- ===== Header ===== -->
+  <header class="header">
+    <div class="header-brand">
+      <span class="header-logo">◈</span>
+      <h1 class="header-title">InsightMesh</h1>
+    </div>
+    <button id="settings-btn" class="icon-btn" title="Settings">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+    </button>
+  </header>
+
+  <!-- ===== Settings Modal ===== -->
+  <div id="settings-modal" class="modal hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content glass-card">
+      <h2 class="modal-title">Settings</h2>
+      <label class="input-label" for="api-key-input">Gemini API Key</label>
+      <input id="api-key-input" type="password" class="input-field" placeholder="Paste your API key here…" />
+      <p class="input-hint">Get a free key at <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a></p>
+      <div class="modal-actions">
+        <button id="save-api-key" class="btn btn-primary">Save Key</button>
+        <button id="close-settings" class="btn btn-ghost">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Pending Snippet Banner ===== -->
+  <div id="pending-snippet-banner" class="pending-banner hidden">
+    <div class="pending-banner-inner glass-card">
+      <p class="pending-label">📌 New Clip</p>
+      <p id="pending-snippet-preview" class="pending-preview"></p>
+      <div class="pending-actions">
+        <select id="pending-folder-select" class="select-field">
+          <option value="">Select Folder…</option>
+        </select>
+        <select id="pending-topic-select" class="select-field">
+          <option value="">Select Topic…</option>
+        </select>
+        <button id="save-pending-snippet" class="btn btn-primary btn-sm">Save</button>
+        <button id="dismiss-pending-snippet" class="btn btn-ghost btn-sm">Dismiss</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Breadcrumb Navigation ===== -->
+  <nav id="breadcrumb" class="breadcrumb">
+    <button class="breadcrumb-item active" data-view="folders">All Folders</button>
+  </nav>
+
+  <!-- ===== Main Content Area ===== -->
+  <main id="main-content" class="main-content">
+
+    <!-- Folders View -->
+    <section id="folders-view" class="view">
+      <div class="view-header">
+        <h2 class="view-title">Your Research</h2>
+        <button id="add-folder-btn" class="btn btn-primary btn-sm">
+          <span>+</span> New Folder
+        </button>
+      </div>
+
+      <!-- Add Folder Form (Hidden by default) -->
+      <div id="add-folder-form" class="inline-form hidden">
+        <input id="new-folder-name" type="text" class="input-field" placeholder="Folder name…" />
+        <button id="confirm-add-folder" class="btn btn-primary btn-sm">Create</button>
+        <button id="cancel-add-folder" class="btn btn-ghost btn-sm">Cancel</button>
+      </div>
+
+      <div id="folders-list" class="card-list">
+        <!-- Dynamically populated -->
+      </div>
+
+      <!-- Empty State -->
+      <div id="folders-empty" class="empty-state hidden">
+        <div class="empty-icon">◇</div>
+        <p class="empty-title">No folders yet</p>
+        <p class="empty-subtitle">Create a folder to start organizing your research</p>
+      </div>
+    </section>
+
+    <!-- Topics View -->
+    <section id="topics-view" class="view hidden">
+      <div class="view-header">
+        <h2 id="topics-view-title" class="view-title"></h2>
+        <button id="add-topic-btn" class="btn btn-primary btn-sm">
+          <span>+</span> New Topic
+        </button>
+      </div>
+
+      <!-- Add Topic Form -->
+      <div id="add-topic-form" class="inline-form hidden">
+        <input id="new-topic-name" type="text" class="input-field" placeholder="Topic name…" />
+        <button id="confirm-add-topic" class="btn btn-primary btn-sm">Create</button>
+        <button id="cancel-add-topic" class="btn btn-ghost btn-sm">Cancel</button>
+      </div>
+
+      <div id="topics-list" class="card-list">
+        <!-- Dynamically populated -->
+      </div>
+
+      <div id="topics-empty" class="empty-state hidden">
+        <div class="empty-icon">◇</div>
+        <p class="empty-title">No topics yet</p>
+        <p class="empty-subtitle">Add a topic to start clipping insights</p>
+      </div>
+    </section>
+
+    <!-- Snippets / Topic Detail View -->
+    <section id="snippets-view" class="view hidden">
+      <div class="view-header">
+        <h2 id="snippets-view-title" class="view-title"></h2>
+        <button id="synthesize-btn" class="btn btn-accent">
+          ✦ Synthesize
+        </button>
+      </div>
+
+      <!-- Manual Add Snippet -->
+      <div class="snippet-add-area">
+        <textarea id="manual-snippet-input" class="textarea-field" placeholder="Paste or type a snippet here…" rows="3"></textarea>
+        <button id="add-manual-snippet" class="btn btn-primary btn-sm">Add Snippet</button>
+      </div>
+
+      <div id="snippets-list" class="snippets-list">
+        <!-- Dynamically populated -->
+      </div>
+
+      <div id="snippets-empty" class="empty-state hidden">
+        <div class="empty-icon">◇</div>
+        <p class="empty-title">No snippets yet</p>
+        <p class="empty-subtitle">Right-click text on any webpage and choose "Add to InsightMesh", or paste text above</p>
+      </div>
+
+      <!-- Synthesis Result -->
+      <div id="synthesis-result" class="synthesis-result hidden">
+        <div class="synthesis-header">
+          <h3 class="synthesis-title">✦ AI Synthesis</h3>
+          <button id="close-synthesis" class="icon-btn icon-btn-sm" title="Close">✕</button>
+        </div>
+        <div id="synthesis-content" class="synthesis-content"></div>
+      </div>
+
+      <!-- Loading Indicator -->
+      <div id="synthesis-loading" class="synthesis-loading hidden">
+        <div class="loader"></div>
+        <p class="loading-text">Synthesizing your insights…</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="sidepanel.js"></script>
+</body>
+</html>
